@@ -1,0 +1,23 @@
+// app global css in SCSS form
+body {
+  font-family: 'Yandex Sans Text', serif !important;
+}
+
+#q-app{
+  position: relative;
+  height: 100vh;
+}
+
+.bg-brand{
+  background: $primary !important;
+}
+
+.portal-menu {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.rounded{
+  border-radius: 10px !important;
+}
