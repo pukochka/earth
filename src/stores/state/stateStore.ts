@@ -59,7 +59,7 @@ export const useState = defineStore('earth-state', {
       bounds: {
         orbit: 900,
         zone: 1500,
-        offset: 0,
+        offset: 90,
         degreeOrbit: 2,
         degreeReceiver: 1,
       },

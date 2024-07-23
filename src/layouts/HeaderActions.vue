@@ -48,24 +48,15 @@
       >
         <q-list bordered class="rounded">
           <q-item
-            @click="state.method = 0"
+            v-for="([value, label], index) of Object.entries(methods)"
+            :key="index"
+            @click="state.method = Number(value)"
             clickable
             active-class="text-info"
-            :active="state.method === 0"
+            :active="state.method === Number(value)"
           >
             <q-item-section>
-              <q-item-label>Угломерный</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-item
-            @click="state.method = 1"
-            clickable
-            active-class="text-info"
-            :active="state.method === 1"
-          >
-            <q-item-section>
-              <q-item-label>Разностно-дальномерный</q-item-label>
+              <q-item-label>{{ label }}</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -144,6 +135,11 @@ import BoundsMenu from 'components/BoundsMenu.vue';
 const state = useState();
 
 const speeds = [0.001, 0.1, 0.5, 1, 2, 4, 8, 10];
+
+const methods = {
+  0: 'Угломерный',
+  1: 'Разностно-дальномерный',
+};
 </script>
 
 <style scoped></style>

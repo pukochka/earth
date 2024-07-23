@@ -89,7 +89,7 @@ const updateBounds = (val: number, section: BoundsNames) => {
   state.bounds[section] = val;
 
   if (section === 'offset') {
-    orbitGroup.rotation.x = orbitGroup.rotation.y = (val * Math.PI) / 180;
+    orbitGroup.rotation.y = (val * Math.PI) / 180;
   }
 
   state.updateOrbits();
@@ -123,9 +123,9 @@ const bounds = computed(
       value: 'offset',
       color: 'secondary',
       dimension: '°',
-      min: -180,
+      min: 0,
       max: 180,
-      step: 10,
+      step: 5,
     },
     {
       label: 'Угол между МКА в БСГ',

@@ -48,23 +48,39 @@
         </q-item-section>
       </q-item>
 
-      <q-item dense v-for="(link, index) of links" :key="index">
-        <q-item-section>
-          <q-item-label>{{ index + 1 }}</q-item-label>
-        </q-item-section>
+      <div class="" v-if="state.method === 0">
+        <q-item dense v-for="(link, index) of links" :key="index">
+          <q-item-section>
+            <q-item-label>{{ index + 1 }}</q-item-label>
+          </q-item-section>
 
-        <q-item-section class="text-center" v-if="state.method === 0">
-          <q-item-label class="text-info">
-            {{ getAngle(link.worldReceiver, link.worldSource) }}°
-          </q-item-label>
-        </q-item-section>
+          <q-item-section class="text-center">
+            <q-item-label class="text-info">
+              {{ getAngle(link.worldReceiver, link.worldSource) }}°
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+      </div>
 
-        <q-item-section class="text-center" v-if="state.method === 1">
-          <q-item-label class="text-info">
-            {{ getDistance(link.worldReceiver, link.worldSource) }} нс
-          </q-item-label>
-        </q-item-section>
-      </q-item>
+      <div class="" v-if="state.method === 1 && selected.links.length > 1">
+        <q-item dense>
+          <q-item-section>
+            <q-item-label v-for="(link, index) of links" :key="index">
+              {{ index + 1 }}
+            </q-item-label>
+          </q-item-section>
+
+          <q-item-section class="text-center">
+            <q-item-label
+              class="text-info"
+              v-for="(link, index) of links.slice(0, links.length - 1)"
+              :key="index"
+            >
+              {{ getWait(index) }} нс
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+      </div>
 
       <q-separator v-if="calculating.length === 2" />
 
@@ -162,8 +178,20 @@ const getAngle = (receiver: Vector3, source: Vector3) => {
   ).toFixed(2);
 };
 
-const getDistance = (point1: Vector3, point2: Vector3) => {
-  return (localEarthToWorld(point1.distanceTo(point2)) / 3).toFixed(2);
+const getWait = (index: number) => {
+  const first = links.value[index];
+  const second = links.value[index + 1];
+
+  const distance1 =
+    localEarthToWorld(first.worldReceiver.distanceTo(first.worldSource)) * 1e3;
+  const distance2 =
+    localEarthToWorld(second.worldReceiver.distanceTo(second.worldSource)) *
+    1e3;
+
+  const wait1 = distance1 / (3 * 1e8);
+  const wait2 = distance2 / (3 * 1e8);
+
+  return (Math.abs(wait1 - wait2) * 1e9).toFixed(3);
 };
 
 const info = computed(() => [
